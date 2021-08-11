@@ -65,4 +65,23 @@ module.exports = {
       res.status(500).send(error);
     }
   },
+
+  async changePassword(req, res) {
+    try {
+      const { _id } = req.user;
+      const { currentPassword, newPassword } = req.body;
+      const user = await User.findById(_id);
+  
+      const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+      console.log(`isValidPassword`, isValidPassword)
+      if(!isValidPassword) {
+        return res.status(400).send({ message: "Invalid current Password"})
+      }
+      await User.findByIdAndUpdate(_id, { password: await bcrypt.hash(newPassword, 12), }, { multi: true })
+      return res.send({message: "Password changed successfully"})
+    } catch (error) {
+      console.log(`error`, error);
+      return res.send(error)
+    }
+  }
 };
