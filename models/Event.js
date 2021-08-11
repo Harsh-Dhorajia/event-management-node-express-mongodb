@@ -10,10 +10,11 @@ const EventSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  createdBy: {
+  userId: {
     type: mongoose.Types.ObjectId,
     ref: "user",
   },
+  createdBy: String
 });
 
 

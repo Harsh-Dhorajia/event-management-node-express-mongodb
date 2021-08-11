@@ -126,7 +126,7 @@ module.exports = {
         resetPasswordExpires: { $gte: dayjs().format() },
       });
       if (!user) {
-        return res.status(404).send({ message: "Reuested User not found" });
+        return res.status(404).send({ message: "Requested User not found" });
       }
       
       await User.findByIdAndUpdate(user._id, {
